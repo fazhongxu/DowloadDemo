@@ -12,24 +12,26 @@ import android.widget.ProgressBar;
 import com.xxl.downloaddemo.bean.FileInfo;
 import com.xxl.downloaddemo.service.DowloadService;
 import com.xxl.downloaddemo.service.DowloadTask;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import com.xxl.viewfindlib.NetCheck;
+import com.xxl.viewfindlib.OnClick;
+import com.xxl.viewfindlib.ViewById;
+import com.xxl.viewfindlib.ViewUtil;
 
 public class MainActivity extends AppCompatActivity {
     private String downloadUrl = "http://www.imooc.com/mobile/mukewang.apk";
     public static final String UPDATE_PROGRESS = "update progress";
 
-    @BindView(R.id.pb_download)
-    ProgressBar pbDownload;
+    //    @BindView(R.id.pb_download)
+    @ViewById(R.id.pb_download)
+    private ProgressBar pbDownload;
     private UpdateReceiver mUpdateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
+        ViewUtil.inject(this);
         pbDownload.setMax(100);
         mUpdateReceiver = new UpdateReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.btn_download_start, R.id.btn_download_stop})
-    public void onViewClicked(View view) {
+    public void click(View view) {
         Intent intent = new Intent(this, DowloadService.class);
         FileInfo fileInfo = new FileInfo(0, downloadUrl, 0, "mook.apk");
         switch (view.getId()) {
